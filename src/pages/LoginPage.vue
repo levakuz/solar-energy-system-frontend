@@ -1,6 +1,7 @@
 <script>
 import { defineComponent, getCurrentInstance, ref } from "vue";
 import { useQuasar } from "quasar";
+import { useAuthStore } from "stores/auth-store";
 
 export default defineComponent({
   name: "LoginPage",
@@ -10,21 +11,8 @@ export default defineComponent({
     const config = getCurrentInstance().appContext.config.globalProperties;
     const loginData = ref({ email: "", password: "" });
     function login() {
-      config.$api
-        .post("/token", loginData.value)
-        .then(() => {
-          $q.notify({
-            message: "Successful login",
-            color: "primary",
-            textColor: "black",
-          });
-        })
-        .catch(() => {
-          $q.notify({
-            message: "Failure in login. Check your credentials.",
-            color: "negative",
-          });
-        });
+      const authStore = useAuthStore();
+      authStore.login(loginData.value);
     }
     return {
       loginData,
