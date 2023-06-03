@@ -23,6 +23,21 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/user",
+    component: () => import("layouts/UserLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/user/UserIndexPage.vue") },
+      {
+        path: "projects",
+        component: () => import("pages/user/UserProjectsPage.vue"),
+      },
+      {
+        path: "projects/create",
+        component: () => import("pages/user/CreateProjectPage.vue"),
+      },
+    ],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

@@ -1,11 +1,9 @@
-import { useAuthStore } from "src/stores";
 import { Notify } from "quasar";
 export default ({ router, store, app }) => {
   app.config.globalProperties.$api.interceptors.response.use(
     undefined,
     function (err) {
       return new Promise(function (resolve, reject) {
-        const authStore = useAuthStore();
         if (
           err.response.status === 403 &&
           err.response.data.detail === "Invalid token or expired token."
