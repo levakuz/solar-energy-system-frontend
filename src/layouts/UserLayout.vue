@@ -57,7 +57,7 @@
             fit
             cover
             class="bg-primary"
-            auto-close="false"
+            :auto-close="false"
           >
             <q-list>
               <q-item

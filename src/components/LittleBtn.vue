@@ -1,5 +1,5 @@
 <template>
-  <q-btn :label="label" flat style="border-radius: 10px" size="18px">
+  <q-btn no-caps :label="label" flat style="border-radius: 10px" size="18px">
     <slot></slot>
   </q-btn>
 </template>
