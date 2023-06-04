@@ -80,7 +80,11 @@
                 <q-icon name="sunny" />
                 <q-item-label class="q-pa-sm">My projects</q-item-label>
               </q-item>
-              <q-item clickable class="items-center">
+              <q-item
+                clickable
+                class="items-center"
+                @click="$router.push('/user/devices')"
+              >
                 <q-icon name="widgets" />
                 <q-item-label class="q-pa-sm">Available devices</q-item-label>
               </q-item>

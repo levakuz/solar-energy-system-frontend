@@ -40,6 +40,10 @@ const routes = [
         path: "projects/:id",
         component: () => import("pages/user/BrowseProjectPage.vue"),
       },
+      {
+        path: "devices",
+        component: () => import("pages/user/DevicesPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,
