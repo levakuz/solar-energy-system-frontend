@@ -109,11 +109,13 @@
 
 <script>
 import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
-import { defineComponent, getCurrentInstance, ref, onMounted } from "vue";
+import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import { defineComponent, onMounted, ref } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
+
 export default defineComponent({
   name: "UserGMap",
+  props: ["markers"],
   components: {
     LittleBtn,
     LMap,
@@ -125,26 +127,34 @@ export default defineComponent({
     const popupModel = ref(false);
     const devicesTypesList = ref(false);
 
-    function addMarker(e) {
-      // Add marker to map at click location; add popup window
-      var newMarker = new L.marker(e.latlng, { draggable: "true" }).addTo(
-        map.value.leafletObject
-      );
-      newMarker.on("click", function (e) {
+    function addMarker(e, options) {
+      return new L.marker(e.latlng, options).addTo(map.value.leafletObject);
+    }
+    function addMarkerClickEvent(marker) {
+      marker.on("click", function (e) {
         ctx.emit("onMarkerClick", e.latlng, e.target);
       });
     }
-    function prepareLeaflet() {
-      console.log(map.value);
+    async function prepareLeaflet() {
       map.value.leafletObject.on("click", function (e) {
-        addMarker(e);
+        let marker = addMarker(e, { draggable: true });
+        addMarkerClickEvent(marker);
       });
+      if (props.markers !== undefined && props.markers.length > 0) {
+        for (let markerData of props.markers) {
+          let marker = addMarker(markerData, { draggable: false });
+          __addTooltipToMarker(marker, markerData.name);
+        }
+      }
     }
     function deleteMarker(target) {
       map.value.leafletObject.removeLayer(target.value);
     }
     function addTooltipToMarker(target, text) {
       target.value.bindTooltip(text, { permanent: true }).openTooltip();
+    }
+    function __addTooltipToMarker(target, text) {
+      target.bindTooltip(text, { permanent: true }).openTooltip();
     }
     onMounted(() => {});
 

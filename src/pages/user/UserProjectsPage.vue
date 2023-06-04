@@ -9,17 +9,19 @@
     </LittleBtn>
 
     <div class="grid self-center items-center">
-      <UserProjectCard class="" />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
-      <UserProjectCard />
+      <!-- TODO: Remove hardcoded components      -->
+      <UserProjectCard @open="$router.push('/user/projects/1')" class="" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <UserProjectCard @open="$router.push('/user/projects/1')" />
+      <!--      -->
     </div>
   </q-page>
 </template>

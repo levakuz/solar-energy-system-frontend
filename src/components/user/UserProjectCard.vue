@@ -42,11 +42,13 @@ import LittleBtn from "components/LittleBtn.vue";
 export default defineComponent({
   name: "UserProjectCard",
   components: { LittleBtn },
-  setup() {
+  setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     function createReport() {}
-    function openProject() {}
-    return { createReport };
+    function openProject() {
+      ctx.emit("open");
+    }
+    return { createReport, openProject };
   },
 });
 </script>

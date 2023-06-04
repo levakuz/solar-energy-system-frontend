@@ -36,6 +36,10 @@ const routes = [
         path: "projects/create",
         component: () => import("pages/user/CreateProjectPage.vue"),
       },
+      {
+        path: "projects/:id",
+        component: () => import("pages/user/BrowseProjectPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,
