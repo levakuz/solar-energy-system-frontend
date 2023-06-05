@@ -18,9 +18,15 @@
     </l-map>
 
     <div
-      style="z-index: 100; border-radius: 10px; margin-top: 80vh"
+      style="z-index: 100; border-radius: 10px; margin-top: 70vh"
       class="column md-row"
     >
+      <LittleBtn
+        label="Generate report"
+        class="bg-primary q-mx-lg"
+        @click="generateReport"
+        v-if="mode === 'browse'"
+      />
       <LittleBtn label="Companies devices" class="bg-primary q-ma-lg">
         <q-menu fit :auto-close="false" v-model="devicesTypesList">
           <q-scroll-area dense style="height: 300px">
@@ -115,7 +121,7 @@ import LittleBtn from "components/LittleBtn.vue";
 
 export default defineComponent({
   name: "UserGMap",
-  props: ["markers"],
+  props: ["markers", "mode"],
   components: {
     LittleBtn,
     LMap,
@@ -156,6 +162,9 @@ export default defineComponent({
     function __addTooltipToMarker(target, text) {
       target.bindTooltip(text, { permanent: true }).openTooltip();
     }
+    function generateReport() {
+      ctx.emit("generateReport");
+    }
     onMounted(() => {});
 
     return {
@@ -166,6 +175,7 @@ export default defineComponent({
       popupModel,
       deleteMarker,
       addTooltipToMarker,
+      generateReport,
     };
   },
 });

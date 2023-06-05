@@ -1,11 +1,18 @@
 <template>
   <q-page class="column items-xs-center bg-secondary">
-    <UserGMap :markers="devices" @onMarkerClick="openPopup" ref="userMapRef" />
+    <UserGMap
+      :markers="devices"
+      mode="browse"
+      @onMarkerClick="openPopup"
+      ref="userMapRef"
+      @generateReport="openGenerateReportPopup"
+    />
     <CreateDevicePopup
       ref="createDevicePopupRef"
       @deleteDevice="deleteDevice"
       @saveDevice="saveDevice"
     />
+    <GenerateReportPopup ref="generateReportPopupRef" />
   </q-page>
 </template>
 
@@ -13,14 +20,16 @@
 import { defineComponent, getCurrentInstance, ref } from "vue";
 import UserGMap from "components/user/UserGMap.vue";
 import CreateDevicePopup from "components/user/CreateDevicePopup.vue";
+import GenerateReportPopup from "components/user/GenerateReportPopup.vue";
 
 export default defineComponent({
   name: "BrowseProjectPage",
-  components: { CreateDevicePopup, UserGMap },
+  components: { GenerateReportPopup, CreateDevicePopup, UserGMap },
   setup() {
     const config = getCurrentInstance().appContext.config.globalProperties;
     const createDevicePopupRef = ref("");
     const userMapRef = ref("");
+    const generateReportPopupRef = ref("");
     const devices = [
       // TODO: Remove hardcoded data
       {
@@ -47,6 +56,9 @@ export default defineComponent({
     function saveDevice(target, text) {
       userMapRef.value.addTooltipToMarker(target, text);
     }
+    function openGenerateReportPopup() {
+      generateReportPopupRef.value.openDialog();
+    }
     return {
       sendTestRequest,
       openPopup,
@@ -55,6 +67,8 @@ export default defineComponent({
       userMapRef,
       saveDevice,
       devices,
+      openGenerateReportPopup,
+      generateReportPopupRef,
     };
   },
 });

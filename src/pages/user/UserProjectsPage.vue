@@ -36,9 +36,11 @@ export default defineComponent({
   components: { LittleBtn, UserProjectCard },
   setup() {
     const config = getCurrentInstance().appContext.config.globalProperties;
+
     function sendTestRequest() {
       config.$api.get("/accounts/me");
     }
+
     return { sendTestRequest };
   },
 });

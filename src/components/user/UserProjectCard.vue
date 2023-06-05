@@ -29,8 +29,12 @@
       <p style="margin: 0" class="q-px-md">123</p>
     </div>
     <div class="row justify-between q-px-md" style="width: 100%">
-      <LittleBtn class="bg-primary" @click="createReport" label="Get Report" />
-      <LittleBtn class="bg-info" @click="openProject" label="Open" />
+      <LittleBtn
+        style="width: 100%"
+        class="bg-primary"
+        @click="openProject"
+        label="Browse"
+      />
     </div>
   </q-card>
 </template>
@@ -44,11 +48,10 @@ export default defineComponent({
   components: { LittleBtn },
   setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
-    function createReport() {}
     function openProject() {
       ctx.emit("open");
     }
-    return { createReport, openProject };
+    return { openProject };
   },
 });
 </script>
