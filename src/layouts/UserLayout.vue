@@ -25,7 +25,7 @@
       v-model="leftDrawerOpen"
       side="left"
       bordered
-      class="column justify-between"
+      class="column"
       style="background-color: #3a4a40"
     >
       <q-card
@@ -59,43 +59,47 @@
             class="bg-primary"
             :auto-close="false"
           >
-            <q-list>
-              <q-item
-                clickable
-                class="items-center"
-                @click="$router.push('/user')"
+            <q-item
+              clickable
+              class="items-center"
+              @click="$router.push('/user')"
+            >
+              <q-icon name="person" size="24px" />
+              <q-item-label class="q-pa-sm item-label"
+                >Account settings</q-item-label
               >
-                <q-icon name="person" />
-                <q-item-label class="q-pa-sm">Account settings</q-item-label>
-              </q-item>
-              <q-item clickable class="items-center">
-                <q-icon name="description" />
-                <q-item-label class="q-pa-sm">My reports</q-item-label>
-              </q-item>
-              <q-item
-                clickable
-                class="items-center"
-                @click="$router.push('/user/projects')"
-              >
-                <q-icon name="sunny" />
-                <q-item-label class="q-pa-sm">My projects</q-item-label>
-              </q-item>
-              <q-item
-                clickable
-                class="items-center"
-                @click="$router.push('/user/devices')"
-              >
-                <q-icon name="widgets" />
-                <q-item-label class="q-pa-sm">Available devices</q-item-label>
-              </q-item>
-              <q-item clickable class="items-center">
-                <q-icon name="work" />
-                <q-item-label class="q-pa-sm">Companies</q-item-label>
-              </q-item>
-            </q-list>
+            </q-item>
           </q-menu>
         </q-btn>
       </q-card>
+      <q-list class="text-secondary">
+        <q-item clickable class="items-center">
+          <q-icon name="description" size="24px" />
+          <q-item-label class="q-pa-sm item-label">My reports</q-item-label>
+        </q-item>
+        <q-item
+          clickable
+          class="items-center"
+          @click="$router.push('/user/projects')"
+        >
+          <q-icon name="sunny" size="24px" />
+          <q-item-label class="q-pa-sm item-label">My projects</q-item-label>
+        </q-item>
+        <q-item
+          clickable
+          class="items-center"
+          @click="$router.push('/user/devices')"
+        >
+          <q-icon name="widgets" size="24px" />
+          <q-item-label class="q-pa-sm item-label"
+            >Available devices</q-item-label
+          >
+        </q-item>
+        <q-item clickable class="items-center">
+          <q-icon name="work" size="24px" />
+          <q-item-label class="q-pa-sm item-label">Companies</q-item-label>
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container>
@@ -126,4 +130,6 @@ export default {
   body.screen--sm &
     padding-right: 25%
     padding-left: 25%
+.item-label
+  font-size: 18px
 </style>
