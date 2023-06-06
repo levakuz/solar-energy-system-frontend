@@ -73,7 +73,11 @@
         </q-btn>
       </q-card>
       <q-list class="text-secondary">
-        <q-item clickable class="items-center">
+        <q-item
+          clickable
+          class="items-center"
+          @click="$router.push('/user/reports')"
+        >
           <q-icon name="description" size="24px" />
           <q-item-label class="q-pa-sm item-label">My reports</q-item-label>
         </q-item>
