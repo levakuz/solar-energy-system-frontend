@@ -45,13 +45,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="sass">
-.grid
-  width: 100%
-  display: grid
-  grid-template-columns: repeat(auto-fill, 375px)  //height of card
-  padding: 24px
-  grid-column-gap: 24px
-  grid-row-gap: 24px
-  justify-content: center
-</style>
+<style lang="sass"></style>

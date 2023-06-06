@@ -40,7 +40,7 @@ import { defineComponent, getCurrentInstance } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
 
 export default defineComponent({
-  name: "DeveiceCard",
+  name: "DeviceCard",
   components: {},
   props: ["systemLoss", "efficiency", "company", "area"],
   setup(props, ctx) {
