@@ -62,7 +62,7 @@
             <q-item
               clickable
               class="items-center"
-              @click="$router.push('/user')"
+              @click="$router.push('/user/1')"
             >
               <q-icon name="person" size="24px" />
               <q-item-label class="q-pa-sm item-label"
