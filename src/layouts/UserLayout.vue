@@ -19,6 +19,14 @@
             <h5 style="margin: 0; font-size: 25px">Solar Panels</h5>
           </div>
         </q-toolbar-title>
+        <LittleBtn
+          class="bg-white q-mx-md self-start q-mx-lg q-my-sm row items-center"
+          label="Create new project"
+          @click="$router.push('/user/projects/create')"
+          v-if="$route.fullPath === '/user/projects'"
+        >
+          <q-icon name="add" />
+        </LittleBtn>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -118,8 +126,10 @@
 
 <script>
 import { ref } from "vue";
+import LittleBtn from "components/LittleBtn.vue";
 
 export default {
+  components: { LittleBtn },
   setup() {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
