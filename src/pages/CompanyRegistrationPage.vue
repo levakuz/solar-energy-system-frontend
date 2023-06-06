@@ -10,7 +10,7 @@ export default defineComponent({
     const config = getCurrentInstance().appContext.config.globalProperties;
     function registerCompany() {
       config.$api
-        .post("/accounts/register/company", companyData.value)
+        .post("/accounts/company/", companyData.value)
         .then(() => {
           $q.notify({
             message: "Company successfully created. You can login now.",

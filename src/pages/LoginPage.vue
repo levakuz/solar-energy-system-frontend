@@ -49,7 +49,7 @@ export default defineComponent({
         style="border-radius: 10px"
         v-model="loginData.password"
       />
-      <a href="123" class="q-mt-sm" style="font-size: 20px"
+      <a href="" class="q-mt-sm" style="font-size: 20px"
         >I forgot my password</a
       >
       <q-btn
