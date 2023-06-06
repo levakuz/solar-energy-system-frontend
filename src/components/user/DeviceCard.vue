@@ -28,6 +28,10 @@
       <p style="margin: 0">Efficiency:</p>
       <p style="margin: 0" class="q-px-md">{{ efficiency }}</p>
     </div>
+    <div class="row q-px-md q-py-sm">
+      <p style="margin: 0">Area:</p>
+      <p style="margin: 0" class="q-px-md">{{ area }}</p>
+    </div>
   </q-card>
 </template>
 
@@ -38,7 +42,7 @@ import LittleBtn from "components/LittleBtn.vue";
 export default defineComponent({
   name: "DeveiceCard",
   components: {},
-  props: ["systemLoss", "efficiency", "company"],
+  props: ["systemLoss", "efficiency", "company", "area"],
   setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     function createReport() {}

@@ -2,10 +2,30 @@
   <q-page class="column items-xs-center bg-secondary">
     <div class="grid self-center items-center">
       <!-- TODO: Delete hardcoded components      -->
-      <DeveiceCard efficiency="123" system-loss="123" company="test" />
-      <DeveiceCard efficiency="123" system-loss="123" company="test" />
-      <DeveiceCard efficiency="123" system-loss="123" company="test" />
-      <DeveiceCard efficiency="123" system-loss="123" company="test" />
+      <DeveiceCard
+        efficiency="123"
+        system-loss="123"
+        company="test"
+        area="123"
+      />
+      <DeveiceCard
+        efficiency="123"
+        system-loss="123"
+        company="test"
+        area="123"
+      />
+      <DeveiceCard
+        efficiency="123"
+        system-loss="123"
+        company="test"
+        area="123"
+      />
+      <DeveiceCard
+        efficiency="123"
+        system-loss="123"
+        company="test"
+        area="123"
+      />
       <!--      -->
     </div>
   </q-page>
