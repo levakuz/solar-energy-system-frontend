@@ -53,4 +53,5 @@ export default defineComponent({
   padding: 24px
   grid-column-gap: 24px
   grid-row-gap: 24px
+  justify-content: center
 </style>

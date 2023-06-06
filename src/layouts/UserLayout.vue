@@ -95,7 +95,11 @@
             >Available devices</q-item-label
           >
         </q-item>
-        <q-item clickable class="items-center">
+        <q-item
+          clickable
+          class="items-center"
+          @click="$router.push('/user/companies')"
+        >
           <q-icon name="work" size="24px" />
           <q-item-label class="q-pa-sm item-label">Companies</q-item-label>
         </q-item>
