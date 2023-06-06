@@ -1,6 +1,6 @@
 <template>
   <q-expansion-item
-    style="width: 400px; border-radius: 20px; background-color: white"
+    style="max-width: 400px; border-radius: 20px; background-color: white"
     flat
     rounded
     :label="companyName"
@@ -8,8 +8,9 @@
     icon="work"
   >
     <q-card class="bg-primary text-black">
-      <q-list>
+      <q-list class="">
         <CompanyDeviceItem
+          class="full-width"
           v-for="device in companyDevices"
           :device-name="device.name"
           :efficiency="device.efficiency"

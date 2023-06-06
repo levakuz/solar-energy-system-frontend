@@ -1,7 +1,11 @@
 <template>
   <q-page class="column bg-secondary">
     <div class="row justify-around">
-      <q-list bordered class="q-ma-lg rounded-borders">
+      <q-list
+        bordered
+        class="q-ma-lg rounded-borders full-width"
+        style="max-width: 400px"
+      >
         <CompanyCard
           class="q-ma-lg"
           v-for="company in companies"
