@@ -14,6 +14,8 @@ export default ({ router, store, app }) => {
             textColor: "black",
           });
           router.push("/login");
+        } else {
+          throw err;
         }
       });
     }
