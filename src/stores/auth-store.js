@@ -20,10 +20,10 @@ export const useAuthStore = defineStore("auth", {
         .post(`/token/`, loginData)
         .then(async (resp) => {
           await this.setToken(resp.data.access_token);
-          console.log(this.user.token);
-          console.log(api.defaults.headers.common.Authorization);
           api.get("/accounts/me/").then((resp) => {
+            console.log(resp.data);
             this.user.role = resp.data.role;
+            this.user.id = resp.data.id;
             console.log(this.user.role);
             if (this.user.role === "company") {
               this.router.push("/company");
