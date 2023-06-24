@@ -11,11 +11,23 @@
         <div class="row justify-between q-pt-md">
           <div class="column">
             <p style="margin: 0">Longitude</p>
-            <q-input rounded outlined class="q-pt-sm" v-model="longitude" />
+            <q-input
+              rounded
+              outlined
+              class="q-pt-sm"
+              v-model="longitude"
+              disable
+            />
           </div>
           <div class="column justify-between">
             <p style="margin: 0">Lattitude</p>
-            <q-input rounded outlined class="q-pt-sm" v-model="latitude" />
+            <q-input
+              rounded
+              outlined
+              class="q-pt-sm"
+              v-model="latitude"
+              disable
+            />
           </div>
         </div>
         <p style="margin: 0">Product</p>
