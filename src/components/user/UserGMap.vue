@@ -140,7 +140,6 @@ export default defineComponent({
     const devicesTypesList = ref(false);
 
     function addMarker(e, options) {
-      console.log(e);
       return new L.marker(e.latlng, options).addTo(map.value.leafletObject);
     }
     function addMarkerClickEvent(marker) {
@@ -187,6 +186,7 @@ export default defineComponent({
       addTooltipToMarker,
       generateReport,
       openGeocodingPopup,
+      addMarkerClickEvent,
     };
   },
 });

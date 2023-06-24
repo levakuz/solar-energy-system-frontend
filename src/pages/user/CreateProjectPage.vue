@@ -47,7 +47,11 @@ export default defineComponent({
       geocodingPopupRef.value.openDialog();
     }
     function setMarker(lat, lng) {
-      userMapRef.value.addMarker({ latlng: { lat: lat, lng: lng } });
+      const marker = userMapRef.value.addMarker({
+        latlng: { lat: lat, lng: lng },
+      });
+      console.log(marker);
+      userMapRef.value.addMarkerClickEvent(marker);
     }
     return {
       sendTestRequest,
