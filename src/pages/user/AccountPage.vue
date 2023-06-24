@@ -43,17 +43,14 @@ export default defineComponent({
     const $q = useQuasar();
 
     function getAccountInfo() {
-      config.$api.get(`accounts/user/${authStore.user.id}`).then((resp) => {
+      config.$api.get(`accounts/users/${authStore.user.id}`).then((resp) => {
         user.value.first_name = resp.data.first_name;
         user.value.last_name = resp.data.last_name;
-      });
-      config.$api.get(`devices/6`).then((resp) => {
-        console.log(resp);
       });
     }
     function saveAccount() {
       config.$api
-        .put(`accounts/user/${authStore.user.id}`, user.value)
+        .put(`accounts/users/${authStore.user.id}`, user.value)
         .then((resp) => {
           $q.notify({
             message: "Account successful updated",
