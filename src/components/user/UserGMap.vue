@@ -27,6 +27,12 @@
         @click="generateReport"
         v-if="mode === 'browse'"
       />
+      <LittleBtn
+        label="Set marker by location name"
+        class="bg-primary q-mx-lg"
+        @click="openGeocodingPopup"
+        v-if="mode !== 'browse'"
+      />
       <LittleBtn label="Companies devices" class="bg-primary q-ma-lg">
         <q-menu fit :auto-close="false" v-model="devicesTypesList">
           <q-scroll-area dense style="height: 300px">
@@ -134,6 +140,7 @@ export default defineComponent({
     const devicesTypesList = ref(false);
 
     function addMarker(e, options) {
+      console.log(e);
       return new L.marker(e.latlng, options).addTo(map.value.leafletObject);
     }
     function addMarkerClickEvent(marker) {
@@ -165,6 +172,9 @@ export default defineComponent({
     function generateReport() {
       ctx.emit("generateReport");
     }
+    function openGeocodingPopup() {
+      ctx.emit("geocodingPopup");
+    }
     onMounted(() => {});
 
     return {
@@ -176,6 +186,7 @@ export default defineComponent({
       deleteMarker,
       addTooltipToMarker,
       generateReport,
+      openGeocodingPopup,
     };
   },
 });

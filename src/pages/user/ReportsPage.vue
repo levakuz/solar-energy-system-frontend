@@ -12,19 +12,19 @@
         v-model="selectedProject"
       />
       <div v-if="selectedProject !== null">
-        <h3 class="q-ma-md">{{ selectedProject.name }}</h3>
+        <h4 class="q-ma-md">{{ selectedProject.name }}</h4>
       </div>
       <div
         v-if="selectedProject !== null"
         class="row justify-around full-width"
       >
-        <h4 class="q-ma-md">Date from: {{ selectedProject.date_from }}</h4>
-        <h4 class="q-ma-md">Date to: {{ selectedProject.date_to }}</h4>
+        <h5 class="q-ma-md">Date from: {{ selectedProject.date_from }}</h5>
+        <h5 class="q-ma-md">Date to: {{ selectedProject.date_to }}</h5>
       </div>
-      <h4 v-if="selectedProject !== null" class="q-ma-md">
-        Total energy produced:
+      <h5 v-if="selectedProject !== null" class="q-ma-md">
+        Total:
         {{ selectedProject.totalEnergyProduced.toFixed(2) }} kWh
-      </h4>
+      </h5>
       <q-select
         v-if="selectedProject !== null"
         outlined
