@@ -18,9 +18,13 @@
         v-if="selectedProject !== null"
         class="row justify-around full-width"
       >
-        <h4 class="q-ma-md">Date from: {{ selectedProject.dateFrom }}</h4>
-        <h4 class="q-ma-md">Date to: {{ selectedProject.dateTo }}</h4>
+        <h4 class="q-ma-md">Date from: {{ selectedProject.date_from }}</h4>
+        <h4 class="q-ma-md">Date to: {{ selectedProject.date_to }}</h4>
       </div>
+      <h4 v-if="selectedProject !== null" class="q-ma-md">
+        Total energy produced:
+        {{ selectedProject.totalEnergyProduced.toFixed(2) }} kWh
+      </h4>
       <q-select
         v-if="selectedProject !== null"
         outlined
@@ -45,7 +49,7 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, ref } from "vue";
+import { defineComponent, getCurrentInstance, onBeforeMount, ref } from "vue";
 import ReportCard from "components/user/ReportCard.vue";
 
 export default defineComponent({
@@ -53,26 +57,49 @@ export default defineComponent({
   components: {},
   setup() {
     const config = getCurrentInstance().appContext.config.globalProperties;
-    const projects = ref([
-      {
-        name: "Test",
-        dateFrom: "12.01.2022",
-        dateTo: "13.01.2022",
-        devices: [
-          { name: "a", totalEnergyProduced: "123" },
-          { name: "b", totalEnergyProduced: "222" },
-          { name: "c", totalEnergyProduced: "333" },
-        ],
-      },
-      {
-        name: "Test1",
-        dateFrom: "12.01.2022",
-        dateTo: "13.01.2022",
-        devices: ["d", "e", "f"],
-      },
-    ]);
+    const projects = ref([]);
     const selectedProject = ref(null);
     const selectedDevice = ref(null);
+    function getProjects(page, itemsPerPage) {
+      let offset = itemsPerPage * (page - 1);
+      config.$api
+        .get(`projects/?limit=${itemsPerPage}&offset=${offset}`)
+        .then((resp) => {
+          projects.value = resp.data.items;
+          projects.value.forEach((project, index) => {
+            getReport(project.id).then((report) => {
+              console.log(report);
+              projects.value[index].date_from = new Date(
+                report[0].date_from
+              ).toLocaleDateString();
+              projects.value[index].date_to = new Date(
+                report[0].date_to
+              ).toLocaleDateString();
+              projects.value[index].totalEnergyProduced = report[0].value;
+            });
+            getDevices(project.id).then((devices) => {
+              projects.value[index].devices = devices;
+            });
+          });
+        });
+    }
+    function getReport(projectId) {
+      return config.$api
+        .get(`reports/?project_id=${projectId}`)
+        .then((resp) => {
+          return resp.data.items;
+        });
+    }
+    function getDevices(projectId) {
+      return config.$api
+        .get(`devices/?project_id=${projectId}`)
+        .then((resp) => {
+          return resp.data.items;
+        });
+    }
+    onBeforeMount(() => {
+      getProjects(1, 10);
+    });
     return {
       projects,
       selectedProject,

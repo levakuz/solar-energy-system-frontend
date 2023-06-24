@@ -6,6 +6,7 @@
     :label="companyName"
     class="overflow-hidden bg-dark text-secondary"
     icon="work"
+    expand-icon-class="text-secondary"
   >
     <q-card class="bg-primary text-black">
       <q-list class="">
@@ -14,7 +15,7 @@
           v-for="device in companyDevices"
           :device-name="device.name"
           :efficiency="device.efficiency"
-          :system-loss="device.systemLoss"
+          :system-loss="device.system_loss"
           :area="device.area"
           v-bind:key="device.id"
         />

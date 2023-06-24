@@ -1,25 +1,32 @@
 <template>
   <q-page class="column items-xs-center bg-secondary">
     <div class="grid self-center items-center">
-      <!-- TODO: Remove hardcoded components      -->
-      <UserProjectCard @open="$router.push('/user/projects/1')" class="" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <UserProjectCard @open="$router.push('/user/projects/1')" />
-      <!--      -->
+      <UserProjectCard
+        v-for="project in projects"
+        v-bind:key="project.id"
+        :name="project.name"
+        :status="project.status"
+        @open="$router.push(`/user/projects/${project.id}`)"
+        class=""
+      />
     </div>
+    <q-pagination
+      color="black"
+      v-model="page"
+      :max="totalPages"
+      direction-links
+    />
   </q-page>
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance } from "vue";
+import {
+  defineComponent,
+  getCurrentInstance,
+  onBeforeMount,
+  ref,
+  watch,
+} from "vue";
 import UserProjectCard from "components/user/UserProjectCard.vue";
 
 export default defineComponent({
@@ -27,12 +34,28 @@ export default defineComponent({
   components: { UserProjectCard },
   setup() {
     const config = getCurrentInstance().appContext.config.globalProperties;
-
-    function sendTestRequest() {
-      config.$api.get("/accounts/me");
+    const projects = ref([]);
+    const page = ref(1);
+    const itemsPerPage = ref(10);
+    const totalPages = ref(1);
+    function getUserProjects(page, itemsPerPage) {
+      let offset = itemsPerPage * (page - 1);
+      config.$api
+        .get(`projects/?limit=${itemsPerPage}&offset=${offset}`)
+        .then((resp) => {
+          projects.value = resp.data.items;
+          totalPages.value = resp.data.pagination.totalPages;
+        });
     }
+    onBeforeMount(() => {
+      getUserProjects(1, 10);
+    });
 
-    return { sendTestRequest };
+    watch(page, (currentValue) => {
+      getUserProjects(currentValue, itemsPerPage.value);
+    });
+
+    return { projects, page, itemsPerPage, totalPages };
   },
 });
 </script>

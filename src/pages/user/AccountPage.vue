@@ -47,6 +47,9 @@ export default defineComponent({
         user.value.first_name = resp.data.first_name;
         user.value.last_name = resp.data.last_name;
       });
+      config.$api.get(`devices/6`).then((resp) => {
+        console.log(resp);
+      });
     }
     function saveAccount() {
       config.$api

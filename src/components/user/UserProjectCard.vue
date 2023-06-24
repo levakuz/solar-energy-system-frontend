@@ -9,7 +9,7 @@
     class="column card"
     flat
   >
-    <h4 class="q-pa-sm self-center" style="margin: 0">Name</h4>
+    <h4 class="q-pa-sm self-center" style="margin: 0">{{ name }}</h4>
     <q-img
       src="https://picsum.photos/500/300"
       width="100%"
@@ -18,11 +18,13 @@
     ></q-img>
     <div class="row q-px-md q-py-sm">
       <p style="margin: 0">Energy produced:</p>
-      <p style="margin: 0" class="q-px-md">123</p>
+      <p style="margin: 0" class="q-px-md">
+        {{ energyProduced ? energyProduced : "N\\A" }}
+      </p>
     </div>
     <div class="row q-px-md q-py-sm">
-      <p style="margin: 0">Location:</p>
-      <p style="margin: 0" class="q-px-md">123</p>
+      <p style="margin: 0">Status:</p>
+      <p style="margin: 0" class="q-px-md">{{ status }}</p>
     </div>
     <div class="row q-px-md q-py-sm">
       <p style="margin: 0">Created at:</p>
@@ -46,6 +48,7 @@ import LittleBtn from "components/LittleBtn.vue";
 export default defineComponent({
   name: "UserProjectCard",
   components: { LittleBtn },
+  props: ["name", "createdAt", "energyProduced", "status"],
   setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     function openProject() {

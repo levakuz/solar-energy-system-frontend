@@ -12,14 +12,14 @@
           v-bind:key="company.id"
           :company-name="company.name"
           :companyDevices="company.devices"
-        ></CompanyCard>
+        />
       </q-list>
     </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, ref } from "vue";
+import { defineComponent, getCurrentInstance, onBeforeMount, ref } from "vue";
 import DeveiceCard from "components/user/DeviceCard.vue";
 import CompanyCard from "components/user/CompanyCard.vue";
 export default defineComponent({
@@ -27,59 +27,29 @@ export default defineComponent({
   components: { CompanyCard },
   setup() {
     const config = getCurrentInstance().appContext.config.globalProperties;
-    const companies = ref([
-      {
-        id: 1,
-        name: "Test",
-        devices: [
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-        ],
-      },
-      {
-        id: 1,
-        name: "Test",
-        devices: [
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-          {
-            name: "TestDevice",
-            systemLoss: "123",
-            efficiency: "123",
-            area: "123",
-          },
-        ],
-      },
-    ]);
-    return {
-      companies,
-    };
+    const companies = ref([]);
+    function getCompanies() {
+      config.$api.get(`accounts/companies/`).then((resp) => {
+        companies.value = resp.data.items;
+        companies.value.forEach((company, index) => {
+          getDevices(company.account_id).then((devices) => {
+            console.log(devices);
+            companies.value[index].devices = devices;
+          });
+        });
+      });
+    }
+    function getDevices(companyId) {
+      return config.$api
+        .get(`device-types/?company_id=${companyId}`)
+        .then((resp) => {
+          return resp.data.items;
+        });
+    }
+    onBeforeMount(() => {
+      getCompanies(1, 10);
+    });
+    return { companies };
   },
 });
 </script>

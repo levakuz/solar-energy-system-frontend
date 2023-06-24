@@ -9,7 +9,7 @@
     class="column card"
     flat
   >
-    <h4 class="q-pa-sm self-center" style="margin: 0">Name</h4>
+    <h4 class="q-pa-sm self-center" style="margin: 0">{{ name }}</h4>
     <q-img
       src="https://picsum.photos/500/300"
       width="100%"
@@ -42,7 +42,7 @@ import LittleBtn from "components/LittleBtn.vue";
 export default defineComponent({
   name: "DeviceCard",
   components: {},
-  props: ["systemLoss", "efficiency", "company", "area"],
+  props: ["systemLoss", "efficiency", "company", "area", "name"],
   setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     function createReport() {}
