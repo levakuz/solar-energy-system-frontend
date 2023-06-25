@@ -43,11 +43,11 @@ export default defineComponent({
     const generateReportPopupRef = ref("");
     const project = ref("");
     const dataIsLoaded = ref(false);
+    const devices = ref([]);
     function openPopup(LatLng, target) {
       createDevicePopupRef.value.location.latitude = LatLng.lat;
       createDevicePopupRef.value.location.longitude = LatLng.lng;
-      createDevicePopupRef.value.device.project_id =
-        config.$router.currentRoute.value.params.id;
+      createDevicePopupRef.value.device = target.data;
       createDevicePopupRef.value.markerObject = target;
       createDevicePopupRef.value.openDialog();
     }
@@ -75,8 +75,16 @@ export default defineComponent({
       config.$api
         .get(`projects/${config.$router.currentRoute.value.params.id}`)
         .then((resp) => {
+          config.$api
+            .get(
+              `devices/?project_id=${config.$router.currentRoute.value.params.id}`
+            )
+            .then((resp) => {
+              devices.value = resp.data.items;
+              dataIsLoaded.value = true;
+            });
           project.value = resp.data;
-          dataIsLoaded.value = true;
+
           console.log(project.value);
         });
     });
@@ -93,6 +101,7 @@ export default defineComponent({
       openGenerateReportPopup,
       generateReportPopupRef,
       dataIsLoaded,
+      devices,
     };
   },
 });

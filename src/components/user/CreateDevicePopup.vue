@@ -73,20 +73,25 @@ export default defineComponent({
     }
 
     function saveDevice() {
-      console.log(device.value);
-      config.$api.post("locations", location.value).then((resp) => {
-        device.value.location_id = resp.data.id;
-        config.$api.post("devices", device.value).then(() => {
+      if (device.value.id === undefined) {
+        config.$api.post("locations", location.value).then((resp) => {
+          device.value.location_id = resp.data.id;
+        });
+      } else {
+        config.$api.put(`devices/${device.value.id}`, device.value).then(() => {
           ctx.emit("saveDevice", markerObject, device.value.name);
           dialogModel.value = false;
           device.value.name = "";
         });
-      });
+      }
     }
 
     function deleteDevice() {
       dialogModel.value = false;
       ctx.emit("deleteDevice", markerObject);
+      if (device.value.id !== undefined) {
+        config.$api.delete(`devices/${device.value.id}`);
+      }
     }
     function getDeviceTypes() {
       config.$api.get(`device-types/`).then((resp) => {

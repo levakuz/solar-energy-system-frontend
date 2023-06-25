@@ -122,7 +122,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
 
 export default defineComponent({
@@ -138,6 +138,7 @@ export default defineComponent({
     const map = ref("");
     const popupModel = ref(false);
     const devicesTypesList = ref(false);
+    const config = getCurrentInstance().appContext.config.globalProperties;
 
     function addMarker(e, options) {
       return new L.marker(e.latlng, options).addTo(map.value.leafletObject);
@@ -154,7 +155,6 @@ export default defineComponent({
     }
 
     async function prepareLeaflet() {
-      console.log(props.status);
       if (props.status === "active") {
         map.value.leafletObject.on("click", function (e) {
           let marker = addMarker(e, { draggable: true });
@@ -162,9 +162,21 @@ export default defineComponent({
         });
       }
       if (props.markers !== undefined && props.markers.length > 0) {
+        props.markers.forEach((marker) => {});
+
         for (let markerData of props.markers) {
-          let marker = addMarker(markerData, { draggable: false });
-          __addTooltipToMarker(marker, markerData.name);
+          config.$api
+            .get(`locations/${markerData.location_id}`)
+            .then((resp) => {
+              markerData.latlng = {
+                lat: resp.data.latitude,
+                lng: resp.data.longitude,
+              };
+              let marker = addMarker(markerData, { draggable: false });
+              __addTooltipToMarker(marker, markerData.name);
+              addMarkerClickEvent(marker);
+              marker.data = markerData;
+            });
         }
       }
     }
