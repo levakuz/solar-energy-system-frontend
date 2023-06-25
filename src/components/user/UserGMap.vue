@@ -18,57 +18,57 @@
     </l-map>
 
     <div
-      style="z-index: 100; border-radius: 10px; margin-top: 70vh"
+      style="z-index: 100; border-radius: 10px; margin-top: 60vh"
       class="column md-row"
     >
       <LittleBtn
         label="Generate report"
         class="bg-primary q-mx-lg"
         @click="generateReport"
-        v-if="mode === 'browse'"
+        v-if="status === 'active'"
       />
       <LittleBtn
         label="Set marker by location name"
-        class="bg-primary q-mx-lg"
+        class="bg-primary q-mt-lg q-mx-lg"
         @click="openGeocodingPopup"
-        v-if="mode !== 'browse'"
+        v-if="status === 'active'"
       />
       <LittleBtn label="Companies devices" class="bg-primary q-ma-lg">
         <q-menu fit :auto-close="false" v-model="devicesTypesList">
           <q-scroll-area dense style="height: 300px">
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
           </q-scroll-area>
@@ -79,37 +79,37 @@
           <q-scroll-area dense style="height: 300px">
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
             <q-expansion-item label="test">
               <q-card>
-                <q-card-section> Some description </q-card-section>
+                <q-card-section> Some description</q-card-section>
               </q-card>
             </q-expansion-item>
           </q-scroll-area>
@@ -127,7 +127,7 @@ import LittleBtn from "components/LittleBtn.vue";
 
 export default defineComponent({
   name: "UserGMap",
-  props: ["markers", "mode"],
+  props: ["markers", "status"],
   components: {
     LittleBtn,
     LMap,
@@ -142,19 +142,25 @@ export default defineComponent({
     function addMarker(e, options) {
       return new L.marker(e.latlng, options).addTo(map.value.leafletObject);
     }
+
     function addMarkerClickEvent(marker) {
       marker.on("click", function (e) {
         ctx.emit("onMarkerClick", e.latlng, e.target);
       });
     }
+
     function makeMarkerNotDraggable(marker) {
       marker.value.dragging.disable();
     }
+
     async function prepareLeaflet() {
-      map.value.leafletObject.on("click", function (e) {
-        let marker = addMarker(e, { draggable: true });
-        addMarkerClickEvent(marker);
-      });
+      console.log(props.status);
+      if (props.status === "active") {
+        map.value.leafletObject.on("click", function (e) {
+          let marker = addMarker(e, { draggable: true });
+          addMarkerClickEvent(marker);
+        });
+      }
       if (props.markers !== undefined && props.markers.length > 0) {
         for (let markerData of props.markers) {
           let marker = addMarker(markerData, { draggable: false });
@@ -162,21 +168,27 @@ export default defineComponent({
         }
       }
     }
+
     function deleteMarker(target) {
       map.value.leafletObject.removeLayer(target.value);
     }
+
     function addTooltipToMarker(target, text) {
       target.value.bindTooltip(text, { permanent: true }).openTooltip();
     }
+
     function __addTooltipToMarker(target, text) {
       target.bindTooltip(text, { permanent: true }).openTooltip();
     }
+
     function generateReport() {
       ctx.emit("generateReport");
     }
+
     function openGeocodingPopup() {
       ctx.emit("geocodingPopup");
     }
+
     onMounted(() => {});
 
     return {

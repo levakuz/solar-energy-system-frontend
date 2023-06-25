@@ -1,8 +1,12 @@
 <template>
   <q-page class="column items-xs-center bg-secondary">
     <UserGMap
+      v-if="dataIsLoaded"
+      :markers="devices"
+      :status="project.status"
       @onMarkerClick="openPopup"
       ref="userMapRef"
+      @generateReport="openGenerateReportPopup"
       @geocodingPopup="openGeocodingPopup"
     />
     <CreateDevicePopup
@@ -11,32 +15,39 @@
       @saveDevice="saveDevice"
     />
     <GeocodingPopup @setMarker="setMarker" ref="geocodingPopupRef" />
+    <GenerateReportPopup ref="generateReportPopupRef" />
   </q-page>
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, ref } from "vue";
+import { defineComponent, getCurrentInstance, onBeforeMount, ref } from "vue";
 import UserGMap from "components/user/UserGMap.vue";
 import CreateDevicePopup from "components/user/CreateDevicePopup.vue";
 import GeocodingPopup from "components/user/GeocodingPopup.vue";
+import GenerateReportPopup from "components/user/GenerateReportPopup.vue";
 
 export default defineComponent({
   name: "CreateProjectPage",
-  components: { GeocodingPopup, CreateDevicePopup, UserGMap },
+  components: {
+    GenerateReportPopup,
+    GeocodingPopup,
+    CreateDevicePopup,
+    UserGMap,
+  },
   props: ["id"],
   setup(props) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     const createDevicePopupRef = ref("");
     const userMapRef = ref("");
     const geocodingPopupRef = ref("");
-    function sendTestRequest() {
-      config.$api.get("/accounts/me");
-    }
+    const generateReportPopupRef = ref("");
+    const project = ref("");
+    const dataIsLoaded = ref(false);
     function openPopup(LatLng, target) {
       createDevicePopupRef.value.location.latitude = LatLng.lat;
       createDevicePopupRef.value.location.longitude = LatLng.lng;
       createDevicePopupRef.value.device.project_id =
-        config.$router.currentRoute.value.query.id;
+        config.$router.currentRoute.value.params.id;
       createDevicePopupRef.value.markerObject = target;
       createDevicePopupRef.value.openDialog();
     }
@@ -54,11 +65,22 @@ export default defineComponent({
       const marker = userMapRef.value.addMarker({
         latlng: { lat: lat, lng: lng },
       });
-      console.log(marker);
       userMapRef.value.addMarkerClickEvent(marker);
     }
+    function openGenerateReportPopup() {
+      generateReportPopupRef.value.openDialog();
+    }
+    onBeforeMount(() => {
+      console.log(config.$router.currentRoute);
+      config.$api
+        .get(`projects/${config.$router.currentRoute.value.params.id}`)
+        .then((resp) => {
+          project.value = resp.data;
+          dataIsLoaded.value = true;
+          console.log(project.value);
+        });
+    });
     return {
-      sendTestRequest,
       openPopup,
       createDevicePopupRef,
       deleteDevice,
@@ -67,6 +89,10 @@ export default defineComponent({
       openGeocodingPopup,
       geocodingPopupRef,
       setMarker,
+      project,
+      openGenerateReportPopup,
+      generateReportPopupRef,
+      dataIsLoaded,
     };
   },
 });

@@ -6,7 +6,7 @@
     >
       <h3 class="self-center">Find location by name</h3>
       <div class="column q-px-lg q-pt-sm">
-        <q-input outlined v-model="name" />
+        <q-input outlined rounded v-model="name" />
         <LittleBtn
           @click="findLocationByName"
           label="Find"
@@ -15,11 +15,11 @@
         <div class="row justify-between q-pt-md">
           <div class="column">
             <p>Longitude</p>
-            <q-input outlined disable v-model="longitude" />
+            <q-input outlined rounded disable v-model="longitude" />
           </div>
           <div class="column">
             <p>Latitude</p>
-            <q-input outlined disable v-model="latitude" />
+            <q-input outlined rounded disable v-model="latitude" />
           </div>
         </div>
       </div>

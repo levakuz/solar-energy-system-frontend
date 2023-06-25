@@ -141,7 +141,7 @@ export default {
       config.$api
         .post("projects", { name: "test", account_id: authStore.user.id })
         .then((resp) => {
-          config.$router.push(`/user/projects/create?id=${resp.data.id}`);
+          config.$router.push(`/user/projects/${resp.data.id}`);
         });
     }
     return {
