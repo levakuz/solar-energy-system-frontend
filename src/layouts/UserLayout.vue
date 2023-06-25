@@ -70,7 +70,7 @@
             <q-item
               clickable
               class="items-center"
-              @click="$router.push('/user/1')"
+              @click="$router.push(`/user/${authStore.user.id}`)"
             >
               <q-icon name="person" size="24px" />
               <q-item-label class="q-pa-sm item-label"
@@ -122,27 +122,24 @@
       <router-view class="page" />
     </q-page-container>
   </q-layout>
+  <CreateProjectPopup ref="createProjectPopupRef" />
 </template>
 
 <script>
 import { getCurrentInstance, ref } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
 import { useAuthStore } from "stores/auth-store";
+import CreateProjectPopup from "components/user/CreateProjectPopup.vue";
 
 export default {
-  components: { LittleBtn },
+  components: { CreateProjectPopup, LittleBtn },
   setup() {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
-    const config = getCurrentInstance().appContext.config.globalProperties;
     const authStore = useAuthStore();
+    const createProjectPopupRef = ref("");
     function createProject() {
-      // TODO: remove hardcoded values
-      config.$api
-        .post("projects", { name: "test", account_id: authStore.user.id })
-        .then((resp) => {
-          config.$router.push(`/user/projects/${resp.data.id}`);
-        });
+      createProjectPopupRef.value.openDialog();
     }
     return {
       showing,
@@ -151,6 +148,8 @@ export default {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       createProject,
+      authStore,
+      createProjectPopupRef,
     };
   },
 };
