@@ -23,7 +23,8 @@ import GeocodingPopup from "components/user/GeocodingPopup.vue";
 export default defineComponent({
   name: "CreateProjectPage",
   components: { GeocodingPopup, CreateDevicePopup, UserGMap },
-  setup() {
+  props: ["id"],
+  setup(props) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     const createDevicePopupRef = ref("");
     const userMapRef = ref("");
@@ -32,8 +33,10 @@ export default defineComponent({
       config.$api.get("/accounts/me");
     }
     function openPopup(LatLng, target) {
-      createDevicePopupRef.value.latitude = LatLng.lat;
-      createDevicePopupRef.value.longitude = LatLng.lng;
+      createDevicePopupRef.value.location.latitude = LatLng.lat;
+      createDevicePopupRef.value.location.longitude = LatLng.lng;
+      createDevicePopupRef.value.device.project_id =
+        config.$router.currentRoute.value.query.id;
       createDevicePopupRef.value.markerObject = target;
       createDevicePopupRef.value.openDialog();
     }
@@ -41,6 +44,7 @@ export default defineComponent({
       userMapRef.value.deleteMarker(target);
     }
     function saveDevice(target, text) {
+      userMapRef.value.makeMarkerNotDraggable(target);
       userMapRef.value.addTooltipToMarker(target, text);
     }
     function openGeocodingPopup() {

@@ -147,6 +147,9 @@ export default defineComponent({
         ctx.emit("onMarkerClick", e.latlng, e.target);
       });
     }
+    function makeMarkerNotDraggable(marker) {
+      marker.value.dragging.disable();
+    }
     async function prepareLeaflet() {
       map.value.leafletObject.on("click", function (e) {
         let marker = addMarker(e, { draggable: true });
@@ -187,6 +190,7 @@ export default defineComponent({
       generateReport,
       openGeocodingPopup,
       addMarkerClickEvent,
+      makeMarkerNotDraggable,
     };
   },
 });

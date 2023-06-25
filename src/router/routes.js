@@ -35,6 +35,7 @@ const routes = [
       {
         path: "projects/create",
         component: () => import("pages/user/CreateProjectPage.vue"),
+        props: true,
       },
       {
         path: "projects/:id",

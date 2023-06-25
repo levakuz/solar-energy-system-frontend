@@ -22,7 +22,7 @@
         <LittleBtn
           class="bg-white q-mx-md self-start q-mx-lg q-my-sm row items-center"
           label="Create new project"
-          @click="$router.push('/user/projects/create')"
+          @click="createProject"
           v-if="$route.fullPath === '/user/projects'"
         >
           <q-icon name="add" />
@@ -125,20 +125,32 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { getCurrentInstance, ref } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
+import { useAuthStore } from "stores/auth-store";
 
 export default {
   components: { LittleBtn },
   setup() {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
+    const config = getCurrentInstance().appContext.config.globalProperties;
+    const authStore = useAuthStore();
+    function createProject() {
+      // TODO: remove hardcoded values
+      config.$api
+        .post("projects", { name: "test", account_id: authStore.user.id })
+        .then((resp) => {
+          config.$router.push(`/user/projects/create?id=${resp.data.id}`);
+        });
+    }
     return {
       showing,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      createProject,
     };
   },
 };
