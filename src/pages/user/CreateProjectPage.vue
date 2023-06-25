@@ -47,7 +47,10 @@ export default defineComponent({
     function openPopup(LatLng, target) {
       createDevicePopupRef.value.location.latitude = LatLng.lat;
       createDevicePopupRef.value.location.longitude = LatLng.lng;
-      createDevicePopupRef.value.device = target.data;
+      if (target.data !== undefined) {
+        createDevicePopupRef.value.device = target.data;
+      }
+
       createDevicePopupRef.value.markerObject = target;
       createDevicePopupRef.value.openDialog();
     }
@@ -77,7 +80,7 @@ export default defineComponent({
         .then((resp) => {
           config.$api
             .get(
-              `devices/?project_id=${config.$router.currentRoute.value.params.id}`
+              `devices/?project_id=${config.$router.currentRoute.value.params.id}&limit=100&offset=0`
             )
             .then((resp) => {
               devices.value = resp.data.items;
