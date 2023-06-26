@@ -25,6 +25,12 @@
         Total:
         {{ selectedProject.totalEnergyProduced.toFixed(2) }} kWh
       </h5>
+      <q-img
+        width="80%"
+        class="q-ma-lg"
+        v-if="selectedProject !== null"
+        :src="selectedProject.plot"
+      ></q-img>
       <q-select
         v-if="selectedProject !== null"
         outlined
@@ -68,7 +74,6 @@ export default defineComponent({
           projects.value = resp.data.items;
           projects.value.forEach((project, index) => {
             getReport(project.id).then((report) => {
-              console.log(report);
               projects.value[index].date_from = new Date(
                 report[0].date_from
               ).toLocaleDateString();
@@ -76,7 +81,13 @@ export default defineComponent({
                 report[0].date_to
               ).toLocaleDateString();
               projects.value[index].totalEnergyProduced = report[0].value;
+              config.$api
+                .get(`report-charts/${report[0].plot_path}`)
+                .then((resp) => {
+                  projects.value[index].plot = resp.request.responseURL;
+                });
             });
+
             getDevices(project.id).then((devices) => {
               projects.value[index].devices = devices;
             });
