@@ -46,9 +46,17 @@ export default defineComponent({
     }
 
     function createProject() {
-      config.$api.post("projects", project.value).then((resp) => {
-        config.$router.push(`/user/projects/${resp.data.id}`);
-      });
+      var formData = new FormData();
+      formData.append("account_id", project.value.account_id);
+      formData.append("name", project.value.name);
+      formData.append("photo", project.value.photo);
+      config.$api
+        .post("projects", project.value, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((resp) => {
+          config.$router.push(`/user/projects/${resp.data.id}`);
+        });
     }
     return {
       dialogModel,

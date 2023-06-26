@@ -20,6 +20,7 @@
         v-bind:key="project.id"
         :name="project.name"
         :status="project.status"
+        :photo="project.photo"
         @open="$router.push(`/user/projects/${project.id}`)"
         class=""
       />
@@ -57,6 +58,9 @@ export default defineComponent({
         )
         .then((resp) => {
           projects.value = resp.data.items;
+          projects.value.forEach((project) => {
+            project.photo = `${config.$api.defaults.baseURL}/project-photos/${project.photo}`;
+          });
           totalPages.value = resp.data.pagination.totalPages;
         });
     }
