@@ -4,6 +4,8 @@
       v-if="dataIsLoaded"
       :markers="devices"
       :status="project.status"
+      :devices-list="devices"
+      :devices-types-list="deviceTypes"
       @onMarkerClick="openPopup"
       ref="userMapRef"
       @generateReport="openGenerateReportPopup"
@@ -44,13 +46,14 @@ export default defineComponent({
     const project = ref("");
     const dataIsLoaded = ref(false);
     const devices = ref([]);
+    const deviceTypes = ref([]);
     function openPopup(LatLng, target) {
       createDevicePopupRef.value.location.latitude = LatLng.lat;
       createDevicePopupRef.value.location.longitude = LatLng.lng;
       if (target.data !== undefined) {
         createDevicePopupRef.value.device = target.data;
       }
-
+      createDevicePopupRef.value.device.project_id = project.value.id;
       createDevicePopupRef.value.markerObject = target;
       createDevicePopupRef.value.openDialog();
     }
@@ -74,7 +77,6 @@ export default defineComponent({
       generateReportPopupRef.value.openDialog();
     }
     onBeforeMount(() => {
-      console.log(config.$router.currentRoute);
       config.$api
         .get(`projects/${config.$router.currentRoute.value.params.id}`)
         .then((resp) => {
@@ -83,12 +85,15 @@ export default defineComponent({
               `devices/?project_id=${config.$router.currentRoute.value.params.id}&limit=100&offset=0`
             )
             .then((resp) => {
+              config.$api
+                .get(`device-types/?limit=100&offset=0`)
+                .then((resp) => {
+                  deviceTypes.value = resp.data.items;
+                });
               devices.value = resp.data.items;
               dataIsLoaded.value = true;
             });
           project.value = resp.data;
-
-          console.log(project.value);
         });
     });
     return {
@@ -105,6 +110,7 @@ export default defineComponent({
       generateReportPopupRef,
       dataIsLoaded,
       devices,
+      deviceTypes,
     };
   },
 });

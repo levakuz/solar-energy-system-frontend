@@ -34,82 +34,60 @@
         v-if="status === 'active'"
       />
       <LittleBtn label="Companies devices" class="bg-primary q-ma-lg">
-        <q-menu fit :auto-close="false" v-model="devicesTypesList">
+        <q-menu fit :auto-close="false" v-model="devicesTypesListModel">
           <q-scroll-area dense style="height: 300px">
-            <q-expansion-item label="test">
+            <q-expansion-item
+              :label="deviceType.name"
+              v-for="deviceType in devicesTypesList"
+              v-bind:key="deviceType.id"
+            >
               <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
+                <q-card-section>
+                  <q-list>
+                    <q-item class="row items-center">
+                      Area:
+                      <q-item-label class="q-px-sm">{{
+                        deviceType.area
+                      }}</q-item-label>
+                    </q-item>
+                    <q-item class="row items-center">
+                      System loss:
+                      <q-item-label class="q-px-sm">{{
+                        deviceType.system_loss
+                      }}</q-item-label>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
               </q-card>
             </q-expansion-item>
           </q-scroll-area>
         </q-menu>
       </LittleBtn>
       <LittleBtn label="My devices" class="bg-primary q-mx-lg">
-        <q-menu fit :auto-close="false" v-model="devicesTypesList">
+        <q-menu fit :auto-close="false" v-model="devicesListModel">
           <q-scroll-area dense style="height: 300px">
-            <q-expansion-item label="test">
+            <q-expansion-item
+              v-for="device in devicesList"
+              v-bind:key="device.id"
+              :label="device.name"
+            >
               <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item label="test">
-              <q-card>
-                <q-card-section> Some description</q-card-section>
+                <q-card-section>
+                  <q-list>
+                    <q-item class="row items-center">
+                      Count:
+                      <q-item-label class="q-px-sm">{{
+                        device.count
+                      }}</q-item-label>
+                    </q-item>
+                    <q-item class="row items-center">
+                      Panel surface azimuth:
+                      <q-item-label class="q-px-sm">{{
+                        device.orientation
+                      }}</q-item-label>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
               </q-card>
             </q-expansion-item>
           </q-scroll-area>
@@ -127,7 +105,7 @@ import LittleBtn from "components/LittleBtn.vue";
 
 export default defineComponent({
   name: "UserGMap",
-  props: ["markers", "status"],
+  props: ["markers", "status", "devicesList", "devicesTypesList"],
   components: {
     LittleBtn,
     LMap,
@@ -137,7 +115,8 @@ export default defineComponent({
     const zoom = 3;
     const map = ref("");
     const popupModel = ref(false);
-    const devicesTypesList = ref(false);
+    const devicesTypesListModel = ref(false);
+    const devicesListModel = ref(false);
     const config = getCurrentInstance().appContext.config.globalProperties;
 
     function addMarker(e, options) {
@@ -215,6 +194,8 @@ export default defineComponent({
       openGeocodingPopup,
       addMarkerClickEvent,
       makeMarkerNotDraggable,
+      devicesTypesListModel,
+      devicesListModel,
     };
   },
 });
