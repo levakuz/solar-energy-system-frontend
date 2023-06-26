@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
               api.get(`accounts/users/${this.user.id}`).then((resp) => {
                 this.user.firstName = resp.data.first_name;
                 this.user.lastName = resp.data.last_name;
-                this.router.push("/user");
+                this.router.push("/user/projects");
               });
             }
             Notify.create({
