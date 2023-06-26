@@ -38,7 +38,7 @@
         />
         <p style="margin: 0" class="q-pl-sm">Count</p>
         <q-input rounded outlined v-model="device.count" />
-        <p style="margin: 0" class="q-pl-sm">Orientation</p>
+        <p style="margin: 0" class="q-pl-sm">Panel surface azimuth</p>
         <q-input rounded outlined v-model="device.orientation" />
         <div class="row justify-between q-pt-lg">
           <little-btn label="Save" class="bg-primary" @click="saveDevice" />
@@ -76,6 +76,11 @@ export default defineComponent({
       if (device.value.id === undefined) {
         config.$api.post("locations", location.value).then((resp) => {
           device.value.location_id = resp.data.id;
+          config.$api.post(`devices/`, device.value).then(() => {
+            ctx.emit("saveDevice", markerObject, device.value.name);
+            dialogModel.value = false;
+            device.value.name = "";
+          });
         });
       } else {
         config.$api.put(`devices/${device.value.id}`, device.value).then(() => {
