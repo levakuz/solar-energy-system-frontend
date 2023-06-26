@@ -54,10 +54,14 @@
             </q-avatar>
           </div>
           <div class="q-pa-sm">
-            <p style="font-size: 24px; margin: 0">Test</p>
+            <p style="font-size: 24px; margin: 0">
+              {{ authStore.user.firstName }}
+            </p>
           </div>
           <div class="q-pa-sm">
-            <p style="font-size: 24px; margin: 0">Test</p>
+            <p style="font-size: 24px; margin: 0">
+              {{ authStore.user.lastName }}
+            </p>
           </div>
           <q-menu
             transition-show="jump-down"

@@ -8,6 +8,9 @@ export const useAuthStore = defineStore("auth", {
       role: null,
       token: null,
       id: null,
+      firstName: null,
+      lastName: null,
+      companyName: null,
     },
   }),
   getters: {
@@ -21,14 +24,16 @@ export const useAuthStore = defineStore("auth", {
         .then(async (resp) => {
           await this.setToken(resp.data.access_token);
           api.get("/accounts/me/").then((resp) => {
-            console.log(resp.data);
             this.user.role = resp.data.role;
             this.user.id = resp.data.id;
-            console.log(this.user.role);
             if (this.user.role === "company") {
               this.router.push("/company");
             } else if (this.user.role === "user") {
-              this.router.push("/user");
+              api.get(`accounts/users/${this.user.id}`).then((resp) => {
+                this.user.firstName = resp.data.first_name;
+                this.user.lastName = resp.data.last_name;
+                this.router.push("/user");
+              });
             }
             Notify.create({
               message: "Successful login",

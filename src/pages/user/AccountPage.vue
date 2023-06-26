@@ -52,6 +52,8 @@ export default defineComponent({
       config.$api
         .put(`accounts/users/${authStore.user.id}`, user.value)
         .then((resp) => {
+          authStore.user.firstName = resp.data.first_name;
+          authStore.user.lastName = resp.data.last_name;
           $q.notify({
             message: "Account successful updated",
             color: "primary",
