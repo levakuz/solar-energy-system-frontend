@@ -29,12 +29,14 @@ export const useAuthStore = defineStore("auth", {
             if (this.user.role === "company") {
               api.get(`accounts/companies/${this.user.id}`).then((resp) => {
                 this.user.companyName = resp.data.name;
+                localStorage.setItem("user", JSON.stringify(this.user));
               });
               this.router.push("/company/devices");
             } else if (this.user.role === "user") {
               api.get(`accounts/users/${this.user.id}`).then((resp) => {
                 this.user.firstName = resp.data.first_name;
                 this.user.lastName = resp.data.last_name;
+                localStorage.setItem("user", JSON.stringify(this.user));
                 this.router.push("/user/projects");
               });
             }
