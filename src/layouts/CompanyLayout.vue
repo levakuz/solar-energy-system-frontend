@@ -2,7 +2,7 @@
   <q-layout view="lhr lpR lFr">
     <q-header bordered class="bg-secondary text-black">
       <meta name="theme-color" content="#e7f5dc" />
-      <q-toolbar>
+      <q-toolbar class="column row-md">
         <q-toolbar-title>
           <div class="row items-center">
             <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
@@ -21,9 +21,9 @@
         </q-toolbar-title>
         <LittleBtn
           class="bg-white q-mx-md self-start q-mx-lg q-my-sm row items-center"
-          label="Create new project"
-          @click="$router.push('/user/projects/create')"
-          v-if="$route.fullPath === '/user/projects'"
+          label="Create new device"
+          @click="createDevice"
+          v-if="$route.fullPath === '/company/devices'"
         >
           <q-icon name="add" />
         </LittleBtn>
@@ -95,24 +95,32 @@
     <q-page-container>
       <router-view class="page" />
     </q-page-container>
+    <CreateCompanyDevicePopup ref="CreateCompanyDeviceRef" />
   </q-layout>
 </template>
 
 <script>
 import { ref } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
+import CreateCompanyDevicePopup from "components/company/CreateCompanyDevicePopup.vue";
 
 export default {
-  components: { LittleBtn },
+  components: { CreateCompanyDevicePopup, LittleBtn },
   setup() {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
+    const CreateCompanyDeviceRef = ref("");
+    function createDevice() {
+      CreateCompanyDeviceRef.value.openDialog();
+    }
     return {
       showing,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      createDevice,
+      CreateCompanyDeviceRef,
     };
   },
 };
