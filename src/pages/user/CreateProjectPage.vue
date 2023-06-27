@@ -17,7 +17,10 @@
       @saveDevice="saveDevice"
     />
     <GeocodingPopup @setMarker="setMarker" ref="geocodingPopupRef" />
-    <GenerateReportPopup ref="generateReportPopupRef" />
+    <GenerateReportPopup
+      :project-id="project.id"
+      ref="generateReportPopupRef"
+    />
   </q-page>
 </template>
 
