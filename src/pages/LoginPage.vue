@@ -72,6 +72,7 @@ export default defineComponent({
         text-color="black"
         style="font-size: 20px"
         rounded
+        @click="login"
       />
     </q-card>
   </q-page>
