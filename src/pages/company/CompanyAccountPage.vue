@@ -38,9 +38,11 @@ export default defineComponent({
     const authStore = useAuthStore();
     const $q = useQuasar();
     function saveAccount() {
+      company.value.account_id = authStore.user.id;
       config.$api
-        .put(`accounts/company/${authStore.user.id}`, company.value)
+        .put(`accounts/companies/${authStore.user.id}`, company.value)
         .then((resp) => {
+          authStore.user.companyName = resp.data.name;
           $q.notify({
             message: "Account successful updated",
             color: "primary",
@@ -57,9 +59,11 @@ export default defineComponent({
         });
     }
     function getAccountInfo() {
-      config.$api.get(`accounts/company/${authStore.user.id}`).then((resp) => {
-        company.value.name = resp.data.name;
-      });
+      config.$api
+        .get(`accounts/companies/${authStore.user.id}`)
+        .then((resp) => {
+          company.value.name = resp.data.name;
+        });
     }
     onBeforeMount(() => {
       getAccountInfo();

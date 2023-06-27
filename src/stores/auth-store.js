@@ -27,6 +27,9 @@ export const useAuthStore = defineStore("auth", {
             this.user.role = resp.data.role;
             this.user.id = resp.data.id;
             if (this.user.role === "company") {
+              api.get(`accounts/companies/${this.user.id}`).then((resp) => {
+                this.user.companyName = resp.data.name;
+              });
               this.router.push("/company/devices");
             } else if (this.user.role === "user") {
               api.get(`accounts/users/${this.user.id}`).then((resp) => {

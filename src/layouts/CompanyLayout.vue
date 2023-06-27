@@ -46,10 +46,9 @@
             </q-avatar>
           </div>
           <div class="q-pa-sm">
-            <p style="font-size: 24px; margin: 0">Test</p>
-          </div>
-          <div class="q-pa-sm">
-            <p style="font-size: 24px; margin: 0">Test</p>
+            <p style="font-size: 24px; margin: 0">
+              {{ authStore.user.companyName }}
+            </p>
           </div>
           <q-menu
             transition-show="jump-down"
@@ -94,6 +93,7 @@
 <script>
 import { ref } from "vue";
 import CreateCompanyDevicePopup from "components/company/CreateCompanyDevicePopup.vue";
+import { useAuthStore } from "stores/auth-store";
 
 export default {
   components: { CreateCompanyDevicePopup },
@@ -101,6 +101,7 @@ export default {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
     const CreateCompanyDeviceRef = ref("");
+    const authStore = useAuthStore();
     function createDevice() {
       CreateCompanyDeviceRef.value.openDialog();
     }
@@ -112,6 +113,7 @@ export default {
       },
       createDevice,
       CreateCompanyDeviceRef,
+      authStore,
     };
   },
 };
