@@ -121,6 +121,8 @@ export default defineComponent({
     watch(dialogModel, (newValue) => {
       if (newValue === true) {
         getDeviceTypes();
+      } else {
+        device.value = { power_peak: 1 };
       }
     });
 
