@@ -31,6 +31,7 @@
 import { defineComponent, getCurrentInstance, ref, watch } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
 import { useAuthStore } from "stores/auth-store";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "CreateProjectPopup",
@@ -40,6 +41,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const dialogModel = ref(false);
     const project = ref({ account_id: authStore.user.id });
+    const $q = useQuasar();
 
     function openDialog() {
       dialogModel.value = true;
@@ -56,6 +58,16 @@ export default defineComponent({
         })
         .then((resp) => {
           config.$router.push(`/user/projects/${resp.data.id}`);
+        })
+        .catch((e) => {
+          if (e.response.status !== 422) {
+            console.log(e);
+            $q.notify({
+              message: e.response.data.detail,
+              color: "negative",
+              textColor: "black",
+            });
+          }
         });
     }
     return {
