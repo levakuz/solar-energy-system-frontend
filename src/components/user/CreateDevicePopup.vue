@@ -1,8 +1,8 @@
 <template>
-  <q-dialog v-model="dialogModel">
+  <q-dialog v-model="dialogModel" class="column">
     <q-card
       class="bg-white column"
-      style="height: 600px; width: 800px; border-radius: 10px"
+      style="height: 700px; width: 800px; border-radius: 10px"
     >
       <h3 class="self-center q-pt-sm" style="margin: 0">Edit device</h3>
       <div class="column q-px-lg q-pt-sm">
@@ -40,6 +40,8 @@
         <q-input rounded outlined v-model="device.count" />
         <p style="margin: 0" class="q-pl-sm">Panel surface azimuth</p>
         <q-input rounded outlined v-model="device.orientation" />
+        <p style="margin: 0" class="q-pl-sm">Panel tilt</p>
+        <q-input rounded outlined v-model="device.tilt" />
         <div class="row justify-between q-pt-lg">
           <little-btn label="Save" class="bg-primary" @click="saveDevice" />
           <little-btn
@@ -56,6 +58,7 @@
 <script>
 import { defineComponent, getCurrentInstance, ref, watch } from "vue";
 import LittleBtn from "components/LittleBtn.vue";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "CreateDevicePopup",
@@ -67,7 +70,7 @@ export default defineComponent({
     const dialogModel = ref(false);
     const deviceTypes = ref(["1", "2", "3"]);
     const markerObject = ref({});
-
+    const $q = useQuasar();
     function openDialog() {
       dialogModel.value = true;
     }
@@ -76,11 +79,23 @@ export default defineComponent({
       if (device.value.id === undefined) {
         config.$api.post("locations", location.value).then((resp) => {
           device.value.location_id = resp.data.id;
-          config.$api.post(`devices/`, device.value).then(() => {
-            ctx.emit("saveDevice", markerObject, device.value.name);
-            dialogModel.value = false;
-            device.value.name = "";
-          });
+          config.$api
+            .post(`devices/`, device.value)
+            .then(() => {
+              ctx.emit("saveDevice", markerObject, device.value.name);
+              dialogModel.value = false;
+              device.value.name = "";
+            })
+            .catch((e) => {
+              if (e.response.status !== 422) {
+                console.log(e);
+                $q.notify({
+                  message: e.response.data.detail,
+                  color: "negative",
+                  textColor: "black",
+                });
+              }
+            });
         });
       } else {
         config.$api.put(`devices/${device.value.id}`, device.value).then(() => {
