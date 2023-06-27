@@ -18,11 +18,18 @@
           <h5 class="q-ma-md">Last name:</h5>
           <q-input outlined rounded v-model="user.last_name"></q-input>
         </div>
-        <LittleBtn
-          label="Save"
-          class="bg-primary self-center q-ma-md"
-          @click="saveAccount"
-        ></LittleBtn>
+        <div class="column row-md self-center">
+          <LittleBtn
+            label="Save"
+            class="bg-primary self-center q-ma-md"
+            @click="saveAccount"
+          ></LittleBtn>
+          <LittleBtn
+            label="Upgrade account"
+            class="bg-yellow-5 self-center q-ma-md"
+            @click="upgradeAccount"
+          ></LittleBtn>
+        </div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -68,10 +75,28 @@ export default defineComponent({
           });
         });
     }
+    function upgradeAccount() {
+      config.$api
+        .put(`accounts/users/${authStore.user.id}/type`, { type: "unlimited" })
+        .then((resp) => {
+          $q.notify({
+            message: "Account successful upgraded",
+            color: "primary",
+            textColor: "black",
+          });
+        })
+        .catch((err) => {
+          $q.notify({
+            message: "Error in upgrading of account",
+            color: "warning",
+            textColor: "black",
+          });
+        });
+    }
     onBeforeMount(() => {
       getAccountInfo();
     });
-    return { user, saveAccount };
+    return { user, saveAccount, upgradeAccount };
   },
 });
 </script>
