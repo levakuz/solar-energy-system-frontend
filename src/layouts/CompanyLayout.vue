@@ -19,14 +19,6 @@
             <h5 style="margin: 0; font-size: 25px">Solar Panels</h5>
           </div>
         </q-toolbar-title>
-        <LittleBtn
-          class="bg-white q-mx-md self-start q-mx-lg q-my-sm row items-center"
-          label="Create new device"
-          @click="createDevice"
-          v-if="$route.fullPath === '/company/devices'"
-        >
-          <q-icon name="add" />
-        </LittleBtn>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -101,11 +93,10 @@
 
 <script>
 import { ref } from "vue";
-import LittleBtn from "components/LittleBtn.vue";
 import CreateCompanyDevicePopup from "components/company/CreateCompanyDevicePopup.vue";
 
 export default {
-  components: { CreateCompanyDevicePopup, LittleBtn },
+  components: { CreateCompanyDevicePopup },
   setup() {
     const leftDrawerOpen = ref(true);
     const showing = ref(true);
