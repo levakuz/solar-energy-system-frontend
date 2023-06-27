@@ -59,10 +59,6 @@ const routes = [
     component: () => import("layouts/CompanyLayout.vue"),
     children: [
       {
-        path: "",
-        component: () => import("pages/company/CompanyIndexPage.vue"),
-      },
-      {
         path: "devices",
         component: () => import("pages/company/CompanyDevicesPage.vue"),
       },

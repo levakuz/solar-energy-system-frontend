@@ -27,7 +27,7 @@ export const useAuthStore = defineStore("auth", {
             this.user.role = resp.data.role;
             this.user.id = resp.data.id;
             if (this.user.role === "company") {
-              this.router.push("/company");
+              this.router.push("/company/devices");
             } else if (this.user.role === "user") {
               api.get(`accounts/users/${this.user.id}`).then((resp) => {
                 this.user.firstName = resp.data.first_name;
