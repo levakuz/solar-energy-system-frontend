@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  frontend_service:
+    container_name: solar_energy_system_frontend_service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/templates/:/etc/nginx/templates
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./nginx/proxy_params:/etc/nginx/proxy_params
+
+    restart: unless-stopped
+    ports:
+      - "80:80"
