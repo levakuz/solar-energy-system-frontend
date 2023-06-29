@@ -4,7 +4,7 @@ import { useAuthStore } from "stores/auth-store";
 export default ({ router, store, app }) => {
   const authStore = useAuthStore();
   const user = JSON.parse(localStorage.getItem("user"));
-  if (user !== undefined) {
+  if (user !== undefined && user !== null) {
     authStore.user = user;
     authStore.setToken(user.token);
   }
