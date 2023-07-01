@@ -37,5 +37,11 @@ npm run format
 quasar build
 ```
 
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+### Deploy production version
+```bash
+docker compose up -d --build
+```
+This command will build a webserver with nginx.
+Before, please, check nginx configuration file in default.conf
+
+
