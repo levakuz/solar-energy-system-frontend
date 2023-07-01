@@ -14,6 +14,9 @@ npm install
 quasar dev
 ```
 
+If you use backend API on separate server or on a specific port
+change `baseURL` settings in ./src/boot/axios.
+
 
 ### Lint the files
 ```bash
