@@ -11,7 +11,7 @@
   >
     <h4 class="q-pa-sm self-center" style="margin: 0">{{ name }}</h4>
     <q-img
-      src="https://picsum.photos/500/300"
+      :src="photo"
       width="100%"
       height="150px"
       style="padding: 0; margin: 0"
@@ -42,7 +42,7 @@ import LittleBtn from "components/LittleBtn.vue";
 export default defineComponent({
   name: "DeviceCard",
   components: {},
-  props: ["systemLoss", "efficiency", "company", "area", "name"],
+  props: ["systemLoss", "efficiency", "company", "area", "name", "photo"],
   setup(props, ctx) {
     const config = getCurrentInstance().appContext.config.globalProperties;
     function createReport() {}

@@ -10,6 +10,7 @@
         :system-loss="device.system_loss"
         :company="device.company_id"
         :area="device.area"
+        :photo="device.photo"
       />
     </div>
     <q-pagination
@@ -38,7 +39,10 @@ export default defineComponent({
       config.$api
         .get(`device-types/?limit=${itemsPerPage}&offset=${offset}`)
         .then((resp) => {
-          devices.value = resp.data.items;
+          resp.data.items.forEach((device) => {
+            device.photo = `${config.$api.defaults.baseURL}/device-types-photos/${device.photo}`;
+            devices.value.push(device);
+          });
           totalPages.value = resp.data.pagination.totalPages;
         });
     }
