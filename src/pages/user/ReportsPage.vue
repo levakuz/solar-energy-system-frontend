@@ -23,7 +23,7 @@
       </div>
       <h5 v-if="selectedProject !== null" class="q-ma-md">
         Total:
-        {{ selectedProject.totalEnergyProduced.toFixed(2) }} kWh
+        {{ (selectedProject.totalEnergyProduced / 100).toFixed(2) }} kWh
       </h5>
       <q-img
         width="80%"
