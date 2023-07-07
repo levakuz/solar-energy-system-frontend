@@ -21,6 +21,7 @@
         :name="project.name"
         :status="project.status"
         :photo="project.photo"
+        :created-at="new Date(project.created_at).toLocaleString()"
         @open="$router.push(`/user/projects/${project.id}`)"
         class=""
       />

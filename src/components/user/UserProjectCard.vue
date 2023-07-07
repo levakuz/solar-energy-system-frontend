@@ -28,7 +28,7 @@
     </div>
     <div class="row q-px-md q-py-sm">
       <p style="margin: 0">Created at:</p>
-      <p style="margin: 0" class="q-px-md">123</p>
+      <p style="margin: 0" class="q-px-md">{{ createdAt }}</p>
     </div>
     <div class="row justify-between q-px-md" style="width: 100%">
       <LittleBtn
