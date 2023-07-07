@@ -57,6 +57,7 @@
 <script>
 import { defineComponent, getCurrentInstance, onBeforeMount, ref } from "vue";
 import ReportCard from "components/user/ReportCard.vue";
+import { useAuthStore } from "stores/auth-store";
 
 export default defineComponent({
   name: "DevicesPage",
@@ -66,10 +67,13 @@ export default defineComponent({
     const projects = ref([]);
     const selectedProject = ref(null);
     const selectedDevice = ref(null);
+    const authStore = useAuthStore();
     function getProjects(page, itemsPerPage) {
       let offset = itemsPerPage * (page - 1);
       config.$api
-        .get(`projects/?limit=${itemsPerPage}&offset=${offset}`)
+        .get(
+          `projects/?limit=${itemsPerPage}&offset=${offset}&account_id=${authStore.user.id}`
+        )
         .then((resp) => {
           projects.value = resp.data.items;
           projects.value.forEach((project, index) => {
