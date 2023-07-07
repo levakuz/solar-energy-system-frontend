@@ -37,6 +37,7 @@ import {
   watch,
 } from "vue";
 import UserProjectCard from "components/user/UserProjectCard.vue";
+import { useAuthStore } from "stores/auth-store";
 
 export default defineComponent({
   name: "UserIndexPage",
@@ -50,11 +51,12 @@ export default defineComponent({
     const itemsPerPageOptions = ref([5, 10, 30, 50, 100]);
     const projectsStatus = ref("active");
     const projectsStatusOptions = ref(["active", "inactive"]);
+    const authStore = useAuthStore();
     function getUserProjects(page, itemsPerPage) {
       let offset = itemsPerPage * (page - 1);
       config.$api
         .get(
-          `projects/?limit=${itemsPerPage}&offset=${offset}&status=${projectsStatus.value}`
+          `projects/?limit=${itemsPerPage}&offset=${offset}&status=${projectsStatus.value}&account_id=${authStore.user.id}`
         )
         .then((resp) => {
           projects.value = resp.data.items;
